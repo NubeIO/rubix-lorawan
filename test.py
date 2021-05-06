@@ -5,7 +5,7 @@ cmd = f"wget -c --read-timeout=5 --tries=0 {url}"
 os.system(cmd)
 
 folder = "/home/pi/rubix-lora-1.5.2-0801be89.armv7.zip"
-# dir = "/home/aidan/code/py-nube/rubix-pi-gpio"
+# dir = "/home/aidan/code/py-nube/rubix-lorawan"
 from zipfile import ZipFile
 
 

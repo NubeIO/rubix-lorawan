@@ -12,7 +12,7 @@ RUN $HOME/.poetry/bin/poetry install
 ADD src src
 ADD config config
 ADD run.py ./
-RUN $HOME/.poetry/bin/poetry run pyinstaller run.py -n rubix-pi-gpio --clean --onefile \
+RUN $HOME/.poetry/bin/poetry run pyinstaller run.py -n rubix-lorawan --clean --onefile \
     --add-data pyproject.toml:. \
     --add-data config:config
 
@@ -26,7 +26,7 @@ ARG COMMIT_SHA=$COMMIT_SHA
 
 LABEL maintainer=$MAINTAINER version=$APP_VERSION commit=$COMMIT_SHA
 
-ENV RUBIX_VOLUME=/data/rubix-pi-gpio
+ENV RUBIX_VOLUME=/data/rubix-lorawan
 
 RUN groupadd -g $NUBEIO_GID nubeio \
     && useradd -u $RUBIX_UID -G nubeio rubix \
@@ -34,12 +34,12 @@ RUN groupadd -g $NUBEIO_GID nubeio \
     && chown -R rubix:nubeio $RUBIX_VOLUME
 
 WORKDIR /usr/src/app/
-COPY --chown=rubix:nubeio --from=build /usr/src/app/dist/rubix-pi-gpio ./
+COPY --chown=rubix:nubeio --from=build /usr/src/app/dist/rubix-lorawan ./
 
 USER rubix:nubeio
 
 VOLUME $RUBIX_VOLUME
 
-EXPOSE 2001
+EXPOSE 2002
 
-ENTRYPOINT [ "./rubix-pi-gpio" ]
+ENTRYPOINT [ "./rubix-lorawan" ]
