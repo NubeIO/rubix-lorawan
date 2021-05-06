@@ -1,20 +1,4 @@
-# Rubix Pi GPIO App
-
-
-## Rubix Compute GPIO
-
-## STM 32 reset
-```
-import RPi.GPIO as GPIO
-from time import sleep
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(12, GPIO.OUT)
-GPIO.output(12, GPIO.LOW)
-sleep(2)
-GPIO.output(12, GPIO.HIGH)
-GPIO.cleanup()
-
-```
+# Rubix LoRaWan Wrapper Around Chripstack
 
 ## Running in development
 
