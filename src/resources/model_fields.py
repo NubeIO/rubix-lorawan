@@ -45,6 +45,21 @@ device_fields = {
 
 }
 
+
+chirpstack_device_fields = {
+    'devEUI': fields.String,
+    'name': fields.String,
+    'applicationID': fields.String,
+    'description': fields.String,
+    'deviceProfileID': fields.String,
+    'skipFCntCheck': fields.Boolean,
+    'referenceAltitude': fields.Integer,
+    'description': fields.String,
+
+
+
+}
+
 network_fields = {
     'name': fields.String,
     'enable': fields.Boolean,

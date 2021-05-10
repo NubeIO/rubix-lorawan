@@ -74,14 +74,6 @@ class DeviceModel(ModelBase):
                 if not value or value not in DeviceModels.__members__:
                     raise ValueError("Invalid Device Model")
                 value = DeviceModels[value]
-
-        # # handle for both cases depending on which field is validated first
-        # if key == 'device_model' and self.device_type is not None:
-        #     if not verify_device_model(self.device_type, value):
-        #         raise ValueError('Invalid device model for device type')
-        # elif key == 'device_type' and self.device_model is not None:
-        #     if not verify_device_model(value, self.device_model):
-        #         raise ValueError('Invalid device model for device type')
         return value
 
     def update_mqtt(self):

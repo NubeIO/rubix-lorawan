@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
+from src.resources.chirpstack_api.devices import ChirpStackDevices, ChirpStackDevice
 from src.resources.device.device_plural import DevicePlural
 from src.resources.device.device_singular import DeviceSingularByName, DeviceSingularByUUID
 from src.resources.mapping.mapping import LPGBPMappingResourceList, LPGBPMappingResourceByLoRaPointUUID, \
@@ -19,6 +20,8 @@ api_lora.add_resource(DeviceSingularByUUID, '/devices/uuid/<string:value>')
 api_lora.add_resource(DeviceSingularByName, '/devices/name/<string:value>')
 api_lora.add_resource(PointsSingularByUUID, '/points/uuid/<string:uuid>')
 api_lora.add_resource(PointsSingularByName, '/points/name/<string:device_name>/<string:point_name>')
+api_lora.add_resource(ChirpStackDevices, '/server/devices/<string:app_id>')
+api_lora.add_resource(ChirpStackDevice, '/server/device/<string:dev_eui>')
 
 # lora to generic/bacnet points mappings
 bp_mapping_lp_gbp = Blueprint('mappings_lp_gbp', __name__, url_prefix='/api/mappings/lp_gbp')

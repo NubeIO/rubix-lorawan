@@ -53,12 +53,12 @@ class ChirpStackListener(metaclass=Singleton):
                     )
                     self.__jwt = self.__chirpstack_session.get_jwt()
                     self.__connection_status = self.__chirpstack_session.get_connection_status()
+                    logger.info(f"ChirpStack server connected. Resuming...{self.__jwt}")
                     time.sleep(60)  # time for mqtt client to connect
                     while not self.__connection_status:
-                        logger.warning("ChirpStack server not connected. Waiting for ChirpStack connection "
-                                       "successful...")
+                        logger.warning(f"ChirpStack server not connected. Waiting for ChirpStack connection successful")
                         time.sleep(60)
-                    logger.info("ChirpStack server connected. Resuming...")
+
             except Exception as e:
                 self.__connection_status = None
                 logger.error("Error: {}".format(str(e)))
