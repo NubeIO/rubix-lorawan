@@ -3,6 +3,7 @@ import os
 from abc import ABC
 
 from flask import Flask
+from rubix_mqtt.setting import MqttSettingBase
 
 
 class BaseSetting(ABC):
@@ -19,8 +20,36 @@ class BaseSetting(ABC):
         return json.loads(self.serialize(pretty=False))
 
 
+class ChirpStackSetting(BaseSetting):
+    KEY = 'ChirpStack'
+
+    def __init__(self):
+        self.enable: bool = True
+        self.name: str = 'lorawan'
+        self.ip: str = '0.0.0.0'
+        self.port = 8080
+        self.user: str = 'admin'
+        self.password: str = 'admin'
+
+
+class MqttSetting(MqttSettingBase):
+    KEY = 'mqtt'
+
+    def __init__(self):
+        super().__init__()
+        self.name = 'lora-raw-mqtt'
+        self.attempt_reconnect_secs = 5
+        self.retain_clear_interval = 10
+        self.publish_value = True
+        self.topic = 'rubix/lora_raw/value'
+        self.publish_raw = True
+        self.raw_topic = 'rubix/lora_raw/raw'
+        self.publish_debug = True
+        self.debug_topic = 'rubix/lora_raw/debug'
+
+
 class AppSetting:
-    PORT = 2002
+    PORT = 1919
     FLASK_KEY: str = 'APP_SETTING'
     GLOBAL_DIR_ENV = 'RUBIX_LORA_GLOBAL'
     DATA_DIR_ENV = 'RUBIX_LORA_DATA'
@@ -43,6 +72,8 @@ class AppSetting:
                                                self.__join_global_dir(AppSetting.default_config_dir))
         self.__identifier = kwargs.get('identifier') or AppSetting.default_identifier
         self.__prod = kwargs.get('prod') or False
+        self.__mqtt_setting = MqttSetting()
+        self.chirpstack_setting = ChirpStackSetting()
 
     @property
     def port(self):
@@ -68,14 +99,24 @@ class AppSetting:
     def prod(self) -> bool:
         return self.__prod
 
+    @property
+    def mqtt(self) -> MqttSetting:
+        return self.__mqtt_setting
+
+    @property
+    def chirpstack(self) -> ChirpStackSetting:
+        return self.chirpstack_setting
+
     def serialize(self, pretty=True) -> str:
-        m = {'prod': self.prod,
+        m = {MqttSetting.KEY: self.mqtt, ChirpStackSetting.KEY: self.chirpstack, 'prod': self.prod,
              'global_dir': self.global_dir, 'data_dir': self.data_dir, 'config_dir': self.config_dir}
         return json.dumps(m, default=lambda o: o.to_dict() if isinstance(o, BaseSetting) else o.__dict__,
                           indent=2 if pretty else None)
 
     def reload(self, setting_file: str, is_json_str: bool = False):
         data = self.__read_file(setting_file, self.__config_dir, is_json_str)
+        self.__mqtt_setting = self.__mqtt_setting.reload(data.get(MqttSetting.KEY, None))
+        self.chirpstack_setting = self.chirpstack_setting.reload(data.get(ChirpStackSetting.KEY, None))
         return self
 
     def init_app(self, app: Flask):

@@ -9,15 +9,25 @@
     "password": "password",
     "keepalive": 60,
     "qos": 1,
-    "retain": false,
     "attempt_reconnect_on_unavailable": true,
     "attempt_reconnect_secs": 5,
     "timeout": 10,
+    "retain_clear_interval": 10,
     "publish_value": true,
     "topic": "rubix/lora_raw/value",
     "publish_raw": true,
     "raw_topic": "rubix/lora_raw/raw",
     "publish_debug": true,
     "debug_topic": "rubix/lora_raw/debug"
+  },
+
+  "chirpstack": {
+    "enabled": true,
+    "name": "lorawan",
+    "ip": "0.0.0.0",
+    "port": 8080,
+    "user": "admin",
+    "password": "admin"
+
   }
 }

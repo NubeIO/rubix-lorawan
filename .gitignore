@@ -1,8 +1,6 @@
 .idea
 
-out/config/config.json
-out/config/logging.conf
-
+test_raw.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
