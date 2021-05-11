@@ -1,10 +1,11 @@
-from flask_restful import reqparse
+from flask_restful import reqparse, marshal_with
 from rubix_http.exceptions.exception import NotFoundException
 from rubix_http.resource import RubixResource
 
 from src import db
 from src.lora import DeviceRegistry
 from src.models.model_device import DeviceModel
+from src.resources.model_fields import device_fields
 
 
 class DeviceBase(RubixResource):
@@ -19,6 +20,7 @@ class DeviceBase(RubixResource):
     parser.add_argument('description', type=str, store_missing=False)
 
     @classmethod
+    @marshal_with(device_fields)
     def add_device(cls, _uuid: str, data: dict):
         device: DeviceModel = DeviceModel(uuid=_uuid, **data)
         device.save_to_db()
@@ -27,6 +29,7 @@ class DeviceBase(RubixResource):
         return device
 
     @classmethod
+    @marshal_with(device_fields)
     def update_device(cls, device: DeviceModel, data: dict):
         original_dev_eui = device.dev_eui
         device: DeviceModel = DeviceModel.find_by_uuid(device.uuid)
@@ -44,3 +47,4 @@ class DeviceBase(RubixResource):
             raise NotFoundException('Device not found')
         device.delete_from_db()
         DeviceRegistry().remove_device(device.dev_eui)
+        return {"result": "deleted device"}

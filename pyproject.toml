@@ -18,7 +18,7 @@ rubix-mqtt = {git = "https://github.com/NubeIO/rubix-mqtt", rev = "v1.2.0"}
 SQLAlchemy = "^1.4.14"
 paho-mqtt = "^1.5.1"
 gevent = "^21.1.2"
-py-chirpstack = {git = "https://github.com/NubeIO/py-chirpstack"}
+py-chirpstack = {git = "https://github.com/NubeIO/py-chirpstack", rev = "master"}
 
 [tool.poetry.dev-dependencies]
 

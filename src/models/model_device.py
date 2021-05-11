@@ -40,6 +40,10 @@ class DeviceModel(ModelBase):
     def find_by_name(cls, name: str):
         return cls.query.filter_by(name=name).first()
 
+    @classmethod
+    def find_by_dev_eui(cls, dev_eui: str):
+        return cls.query.filter_by(dev_eui=dev_eui).first()
+
     def save_to_db(self):
         self.save_to_db_no_commit()
         super().save_to_db()
@@ -48,9 +52,6 @@ class DeviceModel(ModelBase):
         if not self.points or not len(self.points):
             from src.models.device_point_presets import get_device_points
             device_points = get_device_points(self.device_model)
-            print(11111111)
-            print(device_points)
-            print(11111111)
             for point in device_points:
                 point.uuid = str(uuid.uuid4())
                 point.device_point_name = point.name  # to match decoder key

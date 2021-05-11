@@ -42,6 +42,7 @@ class ChirpStackListener(metaclass=Singleton):
         while True:
             try:
                 if cs.enable:
+                    time.sleep(5)  # time for mqtt client to connect
                     # Setup the connection
                     url = f"http://{self.__network_connection.ip}:{self.__network_connection.port}"
                     user = self.__network_connection.user

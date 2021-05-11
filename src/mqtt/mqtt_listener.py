@@ -38,9 +38,6 @@ class MqttListener(MqttClientBase):
             subscribe_topics.append(topic)
             gevent.spawn(self.__resubscribe_value_topic, topic)
         logger.info(f'Listening at: {subscribe_topics}')
-        print(11111)
-        print(subscribe_topics)
-        print(11111)
         super().start(config, subscribe_topics, callback)
 
     def __resubscribe_value_topic(self, topic):
@@ -61,18 +58,12 @@ class MqttListener(MqttClientBase):
         print(f'Listener Topic: {message.topic}, Message: {message.payload}')
         logger.debug(f'Listener Topic: {message.topic}, Message: {message.payload}')
         with self.__app_context():
-            print(3333)
             if not message.payload:
                 return
-            print(4444)
             topic_parts: List[str] = message.topic.split(self.SEPARATOR)
-            print(topic_parts)
             if len(self.make_topic((self.config.topic,)).split(self.SEPARATOR)) + 2 == len(topic_parts):
-                print(5555)
                 name: str = topic_parts[-1]
                 dev_eui: str = topic_parts[-2]
-                print(name)
-                print(dev_eui)
                 from src.models.model_device import DeviceModel
                 if DeviceModel.find_by_name(name) is None or DeviceModel.find_by_id(dev_eui) is None:
                     print(f'No point with device.name={name}, device.dev_eui={dev_eui}')

@@ -216,7 +216,7 @@ urllib3 = "*"
 type = "git"
 url = "https://github.com/NubeIO/py-chirpstack"
 reference = "master"
-resolved_reference = "d9302072e1322eaec1a73081d93f4c9568990772"
+resolved_reference = "1717fc0cff01eb1ce57e850cf7f4ee262b67885f"
 
 [[package]]
 name = "pycparser"
@@ -416,7 +416,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e229b7b9745f0692eefbd7f126201b88f6a6a919cbf2df3d4daca730a14e03e2"
+content-hash = "549b68a520b9e589ca976e3194eb97fbe0e1c98be6ab497b80c0219c2512046c"
 
 [metadata.files]
 aniso8601 = [
@@ -572,7 +572,6 @@ greenlet = [
     {file = "greenlet-1.1.0.tar.gz", hash = "sha256:c87df8ae3f01ffb4483c796fe1b15232ce2b219f0b18126948616224d3f658ee"},
 ]
 gunicorn = [
-    {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
     {file = "gunicorn-20.1.0.tar.gz", hash = "sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8"},
 ]
 idna = [

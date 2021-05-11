@@ -13,7 +13,6 @@ class DevicePlural(DeviceBase):
     def get(self):
         return DeviceModel.find_all()
 
-    @marshal_with(device_fields)
     def post(self):
         uuid_ = str(uuid.uuid4())
         cs = ChirpStackListener().chirpstack_session()
@@ -37,4 +36,4 @@ class DevicePlural(DeviceBase):
             elif res.get("result") == "failure":
                 return res
         else:
-            return {"result": "fail"}
+            return {"result": "no connection to server"}

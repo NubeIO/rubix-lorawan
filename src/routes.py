@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from src.resources.chirpstack_api.devices import ChirpStackDevices, ChirpStackDevice
 from src.resources.device.device_plural import DevicePlural
-from src.resources.device.device_singular import DeviceSingularByName, DeviceSingularByUUID
+from src.resources.device.device_singular import DeviceSingularByName, DeviceSingularByUUID, DeviceSingularByEUI
 from src.resources.mapping.mapping import LPGBPMappingResourceList, LPGBPMappingResourceByLoRaPointUUID, \
     LPGBPMappingResourceByGenericPointUUID, LPGBPMappingResourceByBACnetPointUUID, LPGBPMappingResourceByUUID
 from src.resources.network.network import NetworkDriver
@@ -18,6 +18,7 @@ api_lora.add_resource(DevicePlural, '/devices')
 api_lora.add_resource(PointsPlural, '/points')
 api_lora.add_resource(DeviceSingularByUUID, '/devices/uuid/<string:value>')
 api_lora.add_resource(DeviceSingularByName, '/devices/name/<string:value>')
+api_lora.add_resource(DeviceSingularByEUI, '/devices/eui/<string:value>')
 api_lora.add_resource(PointsSingularByUUID, '/points/uuid/<string:uuid>')
 api_lora.add_resource(PointsSingularByName, '/points/name/<string:device_name>/<string:point_name>')
 api_lora.add_resource(ChirpStackDevices, '/server/devices/<string:app_id>')
