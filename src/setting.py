@@ -42,6 +42,7 @@ class MqttSetting(MqttSettingBase):
         self.retain_clear_interval = 10
         self.publish_value = True
         self.topic = 'rubix/lora_raw/value'
+        self.subscribe_topic = 'application/+/device/+/rx'
         self.publish_raw = True
         self.raw_topic = 'rubix/lora_raw/raw'
         self.publish_debug = True

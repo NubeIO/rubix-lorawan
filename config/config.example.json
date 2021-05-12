@@ -15,6 +15,7 @@
     "retain_clear_interval": 10,
     "publish_value": true,
     "topic": "rubix/lora_raw/value",
+    "subscribe_topic":"application/+/device/+/rx",
     "publish_raw": true,
     "raw_topic": "rubix/lora_raw/raw",
     "publish_debug": true,

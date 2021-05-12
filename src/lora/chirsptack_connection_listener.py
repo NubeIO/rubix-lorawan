@@ -36,6 +36,27 @@ class ChirpStackListener(metaclass=Singleton):
         self.__config = config
         self.__make_chirpstack_session()
 
+    @staticmethod
+    def decode_mqtt_payload(payload, dev_eui, rssi):
+        device = DeviceModel.find_by_dev_eui(dev_eui)
+        payload = payload.get('object')
+        payload.append(rssi)
+        print(13131321)
+        print(payload)
+        print(13131321)
+        logger.debug('Sensor payload: {}'.format(payload))
+        is_updated_any: bool = False
+        if payload is not None:
+            points = device.points
+            for key in payload:
+                for point in points:
+                    if key == point.device_point_name:
+                        point_store = point.point_store
+                        point_store.value_original = float(payload[key])
+                        is_updated_any: bool = point.update_point_value(point.point_store) or is_updated_any
+            if is_updated_any:
+                device.update_mqtt()
+
     def __make_chirpstack_session(self):
         self.__network_connection = NetworkModel.create_network(self.__config)
         cs = self.__network_connection
@@ -85,24 +106,3 @@ class ChirpStackListener(metaclass=Singleton):
         for device in DeviceModel.find_all():
             DeviceRegistry().add_device(device.dev_eui, device.uuid)
 
-    @staticmethod
-    def __decode_device(data):
-        if data and MqttClient().config and MqttClient().config.publish_raw:
-            MqttClient().publish_raw(data)
-            dev_eui = "aaa"
-            device = DeviceModel.find_by_id(dev_eui)
-            payload = data
-            logger.debug('Sensor payload: {}'.format(payload))
-            is_updated_any: bool = False
-            if payload is not None:
-                points = device.points
-                for key in payload:
-                    for point in points:
-                        if key == point.device_point_name:
-                            point_store = point.point_store
-                            point_store.value_original = float(payload[key])
-                            is_updated_any: bool = point.update_point_value(point.point_store) or is_updated_any
-                if is_updated_any:
-                    device.update_mqtt()
-        elif data:
-            logger.debug("Raw chirpstack: {}".format(data))
